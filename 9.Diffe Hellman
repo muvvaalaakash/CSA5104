@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <math.h>
+
+// Function to perform modular exponentiation (a^b % c)
+int modExp(int a, int b, int c) {
+    int result = 1;
+    while (b > 0) {
+        if (b % 2 == 1)
+            result = (result * a) % c;
+        a = (a * a) % c;
+        b = b / 2;
+    }
+    return result;
+}
+
+int main() {
+    int q, g, xa, xb;
+
+    // User input for p and g
+    printf("Enter a prime number q: ");
+    scanf("%d", &q);
+    printf("Enter a primitive root of %d (g): ", q);
+    scanf("%d", &g);
+
+    // User input for private keys a and b
+    printf("Enter private key for Alice (xa): ");
+    scanf("%d", &xa);
+    printf("Enter private key for Bob (xb): ");
+    scanf("%d", &xb);
+
+    // Calculate public keys A and B
+    int yA = modExp(g, xa, q);
+    int yB = modExp(g, xb, q);
+
+    // Calculate shared secret keys
+    int secretKeyAlice = modExp(yB, xa, q);
+    int secretKeyBob = modExp(yA, xb, q);
+
+    // Display public keys and shared secret keys
+    printf("\nPublic Key for Alice (yA): %d\n", yA);
+    printf("Public Key for Bob (yB): %d\n", yB);
+
+    printf("\nShared Secret Key for Alice(ka): %d\n", secretKeyAlice);
+    printf("Shared Secret Key for Bob(kb): %d\n", secretKeyBob);
+
+    return 0;
+}
